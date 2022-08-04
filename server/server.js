@@ -2,16 +2,29 @@ const express = require("express");
 const app = express();
 const compression = require("compression");
 const path = require("path");
-const db = require("../db");
+const db = require("./db");
+
+const cookieSession = require("cookie-session");
+const SESSION_SECRET =
+    process.env.SESSION || require("./secrets.json").SESSION_SECRET;
+
+app.use(
+    cookieSession({
+        secret: SESSION_SECRET,
+        maxAge: 1000 * 60 * 60 * 24 * 14,
+    })
+);
 
 app.use(compression());
+app.use(express.json());
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
 app.post("/register", (req, res) => {
-    const data = req.body;
-    console.log(data);
-    db.insertUser(data.first, data.last, data.email, data.password)
+    const { firstName, lastName, email, password } = req.body;
+    // const data = req.body;
+    console.log("req.body in register is :", req.body);
+    db.insertUser(firstName, lastName, email, password)
         .then((result) => {
             console.log("registration worked");
             console.log(result);
@@ -19,20 +32,33 @@ app.post("/register", (req, res) => {
 
             //res.cookie("registered_user_cookie", result.rows[0].id);
             req.session.userId = result.rows[0].id;
-            res.json({ success: true });
+            res.json({ error: false });
             // res.redirect("/");
         })
         .catch((err) => {
             console.log("An error occured", err);
-            const error = {
-                message:
-                    "Something went wrong !!Are you sure , that u filled all fields properly?",
-            };
-            res.json({ success: false });
-            res.render("/", {
-                title: "Something went wrong . Pls try again",
-                error,
-            });
+
+            res.json({ error: true });
+        });
+});
+
+app.post("/login", (req, res) => {
+    const { email, password } = req.body;
+    console.log("req.body in login is :", req.body);
+    db.authenticateUser(email, password)
+        .then((user) => {
+            console.log("logged in ", user);
+            // console.log(user.rows[0].id);
+            // req.session.userID = user.id;
+            // if(req.session.userID)
+            let userId = user.id;
+            req.session.userID = userId;
+            res.json({ error: false });
+        })
+        .catch((err) => {
+            console.log("error in logging in ", err);
+
+            res.json({ error: true });
         });
 });
 
