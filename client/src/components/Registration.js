@@ -1,10 +1,13 @@
 import { Component } from "react";
-import "./Login.css";
 
-export default class Login extends Component {
+import { Link } from "react-router-dom";
+
+export default class Registration extends Component {
     constructor() {
         super();
         this.state = {
+            firstName: "",
+            lastName: "",
             email: "",
             password: "",
             error: false,
@@ -19,12 +22,14 @@ export default class Login extends Component {
     onFormSubmit(e) {
         e.preventDefault();
         let body = {
+            firstName: this.firstName,
+            lastName: this.lastName,
             email: this.email,
             password: this.password,
         };
         if (this.checkInputFields(body)) {
             body = JSON.stringify(body);
-            fetch("/login", {
+            fetch("/register", {
                 method: "post",
                 headers: { "Content-Type": "application/json" },
                 body: body,
@@ -40,7 +45,7 @@ export default class Login extends Component {
                     }
                 });
         } else {
-            console.log("wrong credentials");
+            console.log("something is missing");
         }
     }
 
@@ -49,13 +54,31 @@ export default class Login extends Component {
     }
     render() {
         return (
-            <div>
+            <>
+                <p>
+                    Welcome to the page. If you are not a member , you can
+                    register here
+                </p>
+                {/* <img src="logo.jpg" alt="" /> */}
                 <form
-                    className="Login"
+                    className="registration"
                     method="post"
                     onSubmit={this.onFormSubmit}
                 >
-                    <h1>Login</h1>
+                    <h1>Registration</h1>
+                    <label htmlFor="firstName">First Name</label>
+                    <input
+                        type="text"
+                        name="firstName"
+                        onChange={this.onFormInputChange}
+                    ></input>
+
+                    <label htmlFor="lastName">Last Name</label>
+                    <input
+                        type="text"
+                        name="lastName"
+                        onChange={this.onFormInputChange}
+                    ></input>
 
                     <label htmlFor="email">E-Mail</label>
                     <input
@@ -71,12 +94,16 @@ export default class Login extends Component {
                         onChange={this.onFormInputChange}
                     ></input>
 
-                    <input type="submit" value="login"></input>
+                    <input type="submit" value="Register"></input>
                     {this.state.error && (
                         <span className="error">Please try again</span>
                     )}
                 </form>
-            </div>
+
+                <p>
+                    <Link to="/login">Click here to Log in!</Link>
+                </p>
+            </>
         );
     }
 }

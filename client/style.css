@@ -1,3 +1,55 @@
 body {
-    background-color: ghostwhite;
+    background-color: beige;
+    box-sizing: border-box;
+    margin: 0;
+    width: 100%;
+    height: auto;
+    /* display: grid;
+    place-items: center;
+    text-align: center; */
+}
+nav img {
+    width: 100px;
+    height: 100px;
+}
+
+form {
+    display: grid;
+    place-items: center;
+}
+
+.myModal {
+    display: grid;
+    place-items: center;
+    text-align: center;
+}
+
+.LogginClass {
+    display: grid;
+    place-items: center;
+    text-align: center;
+}
+
+.horizontalNav {
+    display: flex;
+    justify-content: space-between;
+}
+
+.uploader {
+    display: grid;
+    place-items: center;
+    text-align: center;
+}
+
+.profile .profilepic {
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.profile {
+    display: flex;
 }
