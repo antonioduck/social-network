@@ -202,8 +202,31 @@ module.exports.findUser = (id) => {
 };
 
 module.exports.findFriendship = (user1id, user2id) => {
-    return db.query(`SELECT * FROM friendships WHERE (sender_id= $1 AND id=$2)`, [
-        user1id,
-        user2id,
-    ]);
+    return db.query(
+        `SELECT * FROM friendships WHERE (sender_id= $1 AND recipient_id=$2) OR (sender_id = $2 AND recipient_id = $1)`,
+        [user1id, user2id]
+    );
+};
+
+module.exports.setFriendship = (user1id, user2id) => {
+    return db.query(
+        `INSERT INTO friendships(sender_id, recipient_id, accepted) VALUES ($1, $2, false) RETURNING *`,
+        [user1id, user2id]
+    );
+};
+
+module.exports.AcceptFriendship = (user1id, user2id) => {
+    return (
+        db.query(
+            `UPDATE friendships SET accepted=TRUE WHERE (sender_id= $1 AND recipient_id=$2) RETURNING *`
+        ),
+        [user1id, user2id]
+    );
+};
+
+module.exports.cancelFriendship = (user1id, user2id) => {
+    return db.query(
+        `DELETE FROM friendships WHERE (sender_id= $1 AND recipient_id=$2) OR (sender_id=$2 AND recipient_id=$1)`,
+        [user1id, user2id]
+    );
 };

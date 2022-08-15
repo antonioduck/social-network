@@ -351,13 +351,21 @@ app.post("/friendship/action/:id", (req, res) => {
 
     db.findFriendship(user1id, user2id)
         .then((results) => {
-            console.log("my results from find Friendship are :", results);
+            // console.log("my results from find Friendship are :", results);
+            console.log(
+                "the results.rows.length in find friendship are:",
+                results.rows.length
+            );
+
+            if (results.rows.length === 0) {
+                return res.json({ success: true });
+            } else {
+                return res.json({
+                    success: false,
+                });
+            }
         })
         .catch((err) => console.log("error in find friendship", err));
-    //     if (accepted===true){
-
-    //     }else{}
-    // }
 });
 
 app.get("*", function (req, res) {
