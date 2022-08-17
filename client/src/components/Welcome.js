@@ -9,25 +9,26 @@ export default class Welcome extends Component {
     render() {
         return (
             <>
-            
-                <img src="logo.jpg" alt="" />
+                <nav className="Welcome">
+                    <img src="logo.jpg" alt="" className="welcomeImage" />
 
-                <BrowserRouter>
-                    <Route exact path="/">
-                        <Registration />
-                    </Route>
-                    <Route exact path="/login">
-                        <Login />
-                    </Route>
+                    <BrowserRouter>
+                        <Route exact path="/">
+                            <Registration />
+                        </Route>
+                        <Route exact path="/login">
+                            <Login />
+                        </Route>
 
-                    <Route exact path="/resetpassword">
-                        <ResetPassword />
-                    </Route>
+                        <Route exact path="/resetpassword">
+                            <ResetPassword />
+                        </Route>
 
-                    {/* <Route  path="/">
+                        {/* <Route  path="/">
                         <Profile />
                     </Route> */}
-                </BrowserRouter>
+                    </BrowserRouter>
+                </nav>
             </>
         );
     }

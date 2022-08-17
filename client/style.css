@@ -1,12 +1,9 @@
 body {
-    background-color: beige;
+    background: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);
     box-sizing: border-box;
     margin: 0;
     width: 100%;
     height: auto;
-    /* display: grid;
-    place-items: center;
-    text-align: center; */
 }
 nav img {
     width: 100px;
@@ -30,21 +27,16 @@ form {
     text-align: center;
 }
 
-.horizontalNav {
-    display: flex;
-    justify-content: space-between;
-}
-
 .uploader {
     display: grid;
-    place-items: center;
+    place-items: end;
     text-align: center;
 }
 
 .profile .profilepic {
     height: 200px;
     width: 200px;
-    border-radius: 50%;
+    border-radius: 30%;
     object-fit: cover;
     margin-top: 10px;
     margin-right: 10px;
@@ -52,4 +44,80 @@ form {
 
 .profile {
     display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.users-container {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+.users-container .find-people {
+    display: grid;
+    place-items: center;
+    text-align: center;
+}
+
+img {
+    border-radius: 50%;
+}
+
+.horizontalNav .link {
+    display: grid;
+    place-items: center;
+    text-align: center;
+}
+
+/* .Registration {
+    display: grid;
+    place-items: center;
+    text-align: center;
+} */
+.Welcome {
+    display: grid;
+    place-items: center;
+    text-align: center;
+}
+
+.horizontalNav {
+    display: flex;
+    justify-content: space-between;
+    background: linear-gradient(0.25turn, #f69d3c, #ebf8e1, #3f87a6);
+    transition: 1s;
+}
+
+.Welcome .welcomeImage {
+    display: grid;
+    place-items: center;
+    text-align: center;
+    width: 25rem;
+    height: 25rem;
+    border-radius: 40%;
+}
+.horizontalNav .link {
+    text-decoration: none;
+}
+
+.profile .profile-pic-large {
+    width: 15rem;
+    height: 15rem;
+}
+.other_ppp_profile {
+    display: grid;
+    place-items: center;
+    text-align: center;
+}
+
+.wannabees {
+    display: grid;
+    place-items: center;
+    text-align: center;
+}
+
+.MyFriends {
+    display: grid;
+    place-items: center;
+    text-align: center;
 }

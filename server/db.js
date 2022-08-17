@@ -73,6 +73,7 @@ module.exports.findUserByEmail = (email) => {
     return db.query(`SELECT * FROM USERS WHERE EMAIL =$1`, [email]);
     // return db.query(....)
 };
+let findUserByEmail;
 
 findUserByEmail = (email) => {
     return db.query(`SELECT * FROM USERS WHERE EMAIL =$1`, [email]);
@@ -210,23 +211,34 @@ module.exports.findFriendship = (user1id, user2id) => {
 
 module.exports.setFriendship = (user1id, user2id) => {
     return db.query(
-        `INSERT INTO friendships(sender_id, recipient_id, accepted) VALUES ($1, $2, false) RETURNING *`,
+        `INSERT INTO friendships(sender_id, recipient_id) VALUES ($1, $2) RETURNING id`,
         [user1id, user2id]
     );
 };
 
-module.exports.AcceptFriendship = (user1id, user2id) => {
-    return (
-        db.query(
-            `UPDATE friendships SET accepted=TRUE WHERE (sender_id= $1 AND recipient_id=$2) RETURNING *`
-        ),
+module.exports.acceptFriendship = (user1id, user2id) => {
+    return db.query(
+        `UPDATE friendships SET accepted=true WHERE sender_id=$2 AND recipient_id=$1 RETURNING accepted`,
         [user1id, user2id]
     );
 };
 
 module.exports.cancelFriendship = (user1id, user2id) => {
     return db.query(
-        `DELETE FROM friendships WHERE (sender_id= $1 AND recipient_id=$2) OR (sender_id=$2 AND recipient_id=$1)`,
+        `DELETE FROM friendships WHERE (sender_id=$1 AND recipient_id=$2) OR (sender_id=$2 AND recipient_id=$1)`,
         [user1id, user2id]
+    );
+};
+
+module.exports.FindPossibleFriends = (myId) => {
+    console.log("we are inside the query");
+
+    return db.query(
+        `SELECT users.id, first, last, accepted, url FROM users
+JOIN friendships
+ON (accepted = true AND recipient_id = $1 AND users.id = friendships.sender_id)
+OR (accepted = true AND sender_id = $1 AND users.id = friendships.recipient_id)
+OR (accepted = false AND recipient_id = $1 AND users.id = friendships.sender_id)`,
+        [myId]
     );
 };

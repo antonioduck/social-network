@@ -25,8 +25,6 @@ const ses = require("./ses");
 const s3 = require("./s3");
 const uploader = require("./middleware").uploader;
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - require database
-
 const db = require("./db");
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - serve public folder and uploads
@@ -217,10 +215,10 @@ app.get("/user/id.json", function (req, res) {
 });
 
 app.get("/UserInfo/", (req, res) => {
-    console.log(
-        "what I am getting back from req.session : ",
-        req.session.userId
-    );
+    // console.log(
+    //     "what I am getting back from req.session : ",
+    //     req.session.userId
+    // );
 
     db.getUserInformation(req.session.userId)
         .then((results) => {
@@ -237,7 +235,6 @@ app.post("/image", uploader.single("photo"), s3.upload, (req, res) => {
 
     db.addProfilePic(req.session.userId, url).then(() => {
         res.json({
-            // success: true,
             picture: url,
         });
     });
@@ -297,7 +294,7 @@ app.get("/api/find-users", ensureSignedIn, (req, res) => {
 });
 app.get("/api/user/:id", ensureSignedIn, (req, res) => {
     const { id } = req.params;
-    console.log("asked for user with id ", id);
+    // console.log("asked for user with id ", id);
     db.findUser(id).then((user) => {
         if (user) {
             const self = id == req.session.userId;
@@ -340,32 +337,59 @@ app.get("/api/user", ensureSignedIn, (req, res) => {
     });
 });
 
-app.post("/friendship/action/:id", (req, res) => {
+app.get("/friendship/action/:id", async (req, res) => {
     const user1id = req.session.userId;
     const user2id = req.params.id;
 
-    console.log(
-        "the users I want to check in server are:",
-        user1id + "and" + user2id
-    );
+    // console.log(
+    //     "the users I want to check in server are:",
+    //     user1id + "and" + user2id
+    // );
 
-    db.findFriendship(user1id, user2id)
-        .then((results) => {
-            // console.log("my results from find Friendship are :", results);
-            console.log(
-                "the results.rows.length in find friendship are:",
-                results.rows.length
-            );
+    res.json(await db.findFriendship(user1id, user2id));
+});
 
-            if (results.rows.length === 0) {
-                return res.json({ success: true });
-            } else {
-                return res.json({
-                    success: false,
-                });
-            }
-        })
-        .catch((err) => console.log("error in find friendship", err));
+app.post("/makefriendrequest", async (req, res) => {
+    const user1id = req.session.userId;
+    const user2id = req.body.otherUserId;
+
+    res.json(await db.setFriendship(user1id, user2id));
+});
+
+app.post("/acceptfriendrequest", async (req, res) => {
+    const user1id = req.session.userId;
+    const user2id = req.body.otherUserId;
+
+    console.log("the req.body  in acept friendship in server.js is ", req.body);
+    const result = await db.acceptFriendship(user1id, user2id);
+    res.json(result.rows);
+});
+
+app.post("/cancelfriendship", async (req, res) => {
+    const user1id = req.session.userId;
+    const user2id = req.body.otherUserId;
+
+    res.json(await db.cancelFriendship(user1id, user2id));
+});
+
+// app.post("/deletefriendship", async (req, res) => {
+//     const user1id = req.session.userId;
+//     const user2id = req.body.otherUserId;
+
+//     res.json(await db.cancelFriendship(user1id, user2id));
+// });
+
+app.get("/findpossiblefriendships", async (req, res) => {
+    const myId = req.session.userId;
+    let result = await db.FindPossibleFriends(myId);
+    // console.log("the results from find possible friends are :", result);
+    // db.FindPossibleFriends(myId).then((data) => {
+    //     console.log(
+    //         "the data I am getting back from Find possible friends is :",
+    //         data
+    //     );
+    // });
+    return res.json(result.rows);
 });
 
 app.get("*", function (req, res) {

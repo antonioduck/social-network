@@ -15,7 +15,7 @@ class BioEditor extends Component {
 
     onBioInputChange(e) {
         this.setState({ draftBio: e.target.value });
-        console.log("this.state.draftBio: ", this.state.draftBio);
+        // console.log("this.state.draftBio: ", this.state.draftBio);
         // console.log("e", e);
     }
 
@@ -23,7 +23,7 @@ class BioEditor extends Component {
         this.toggleTheEditor();
         this.props.saveDraftBio(this.state.draftBio);
         const userBio = this.state.draftBio;
-        console.log("userBio: ", userBio);
+        // console.log("userBio: ", userBio);
 
         fetch("/insertTheBio.json", {
             method: "post",
@@ -34,7 +34,7 @@ class BioEditor extends Component {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log("data: ", data);
+                // console.log("data: ", data);
 
                 if (!data.success && data.message) {
                     this.setState({ errorMessage: data.message });
@@ -50,7 +50,7 @@ class BioEditor extends Component {
     render() {
         return (
             <>
-                <p>Welcome to Bio Editor. Click to the button to change it</p>
+                <p>You can modify your profile be clicking in the button</p>
                 {this.state.isTheEditorOpen ? (
                     <>
                         <div>

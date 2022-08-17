@@ -55,54 +55,57 @@ export default class Registration extends Component {
     render() {
         return (
             <>
-                <p>
-                    Welcome to the page. If you are not a member , you can
-                    register here
-                </p>
-                {/* <img src="logo.jpg" alt="" /> */}
-                <form
-                    className="registration"
-                    method="post"
-                    onSubmit={this.onFormSubmit}
-                >
-                    <h1>Registration</h1>
-                    <label htmlFor="firstName">First Name</label>
-                    <input
-                        type="text"
-                        name="firstName"
-                        onChange={this.onFormInputChange}
-                    ></input>
+                {" "}
+                <nav className="Registration">
+                    <p>
+                        Welcome to the page. If you are not a member , you can
+                        register here
+                    </p>
 
-                    <label htmlFor="lastName">Last Name</label>
-                    <input
-                        type="text"
-                        name="lastName"
-                        onChange={this.onFormInputChange}
-                    ></input>
+                    <form
+                        className="registration"
+                        method="post"
+                        onSubmit={this.onFormSubmit}
+                    >
+                        <h1>Registration</h1>
+                        <label htmlFor="firstName">First Name</label>
+                        <input
+                            type="text"
+                            name="firstName"
+                            onChange={this.onFormInputChange}
+                        ></input>
 
-                    <label htmlFor="email">E-Mail</label>
-                    <input
-                        type="email"
-                        name="email"
-                        onChange={this.onFormInputChange}
-                    ></input>
+                        <label htmlFor="lastName">Last Name</label>
+                        <input
+                            type="text"
+                            name="lastName"
+                            onChange={this.onFormInputChange}
+                        ></input>
 
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        name="password"
-                        onChange={this.onFormInputChange}
-                    ></input>
+                        <label htmlFor="email">E-Mail</label>
+                        <input
+                            type="email"
+                            name="email"
+                            onChange={this.onFormInputChange}
+                        ></input>
 
-                    <input type="submit" value="Register"></input>
-                    {this.state.error && (
-                        <span className="error">Please try again</span>
-                    )}
-                </form>
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            name="password"
+                            onChange={this.onFormInputChange}
+                        ></input>
 
-                <p>
-                    <Link to="/login">Click here to Log in!</Link>
-                </p>
+                        <input type="submit" value="Register"></input>
+                        {this.state.error && (
+                            <span className="error">Please try again</span>
+                        )}
+                    </form>
+
+                    <p>
+                        <Link to="/login">Click here to Log in!</Link>
+                    </p>
+                </nav>
             </>
         );
     }
