@@ -6,16 +6,18 @@ import { createStore, applyMiddleware } from "redux";
 import * as immutableState from "redux-immutable-state-invariant";
 import rootReducer from "./redux/reducer.js";
 import { composeWithDevTools } from "redux-devtools-extension";
+import { init } from "./socket.js";
 
 const store = createStore(
     rootReducer,
     composeWithDevTools(applyMiddleware(immutableState.default()))
 );
-const elem = (
-    <Provider store={store}>
-        <App />
-    </Provider>
-);
+
+// const elem = (
+//     <Provider store={store}>
+//         <App />
+//     </Provider>
+// );
 
 fetch("/user/id.json")
     .then((response) => response.json())
@@ -23,7 +25,13 @@ fetch("/user/id.json")
         if (!data.userId) {
             ReactDOM.render(<Welcome />, document.querySelector("main"));
         } else {
-            ReactDOM.render(elem, document.querySelector("main"));
+            init(store);
+            ReactDOM.render(
+                <Provider store={store}>
+                    <App />
+                </Provider>,
+                document.querySelector("main")
+            );
         }
     })
     .catch(() => {

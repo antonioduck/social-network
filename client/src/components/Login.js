@@ -72,7 +72,11 @@ export default class Login extends Component {
                             onChange={this.onFormInputChange}
                         ></input>
 
-                        <input type="submit" value="login"></input>
+                        <input
+                            type="submit"
+                            value="login"
+                            className="Loginbtn"
+                        ></input>
                         {this.state.error && (
                             <span className="error">Please try again</span>
                         )}

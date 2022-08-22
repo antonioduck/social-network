@@ -29,3 +29,13 @@ CREATE TABLE friendships(
     recipient_id VARCHAR NOT NULL,
     accepted BOOLEAN DEFAULT false
 );
+
+CREATE TABLE chat_messages(
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users (id),
+    message VARCHAR,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO chat_messages (message,user_id)
+    VALUES ('hello', 1),('how are you' ,2),('I am fine',3);

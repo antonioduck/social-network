@@ -91,7 +91,7 @@ export default function FriendsAndWannabes() {
     // }, []);
 
     return (
-        <div>
+        <div className="friendsAndWannabees">
             <nav className="wannabees">
                 <h2>Wannabes</h2>
                 {wannabes.map((wannabe) => {

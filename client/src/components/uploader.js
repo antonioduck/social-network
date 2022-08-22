@@ -6,14 +6,19 @@ export default class Uploader extends Component {
         this.state = {
             display: "modal",
             picture: "",
+            // pic: this.props.url,
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        // this.togglePopup = this.togglePopup.bind(this);
     }
 
     closeModal() {
         this.setState({ display: "modal" });
     }
+    // togglePopup() {
+    //     this.setState({ isPopupOpen: !this.state.isPopupOpen });
+    // }
 
     componentDidMount() {
         this.setState({ display: "modalOpen" });
@@ -41,14 +46,18 @@ export default class Uploader extends Component {
     render() {
         return (
             <>
+                <div className="overlay"></div>
                 <div id="myModal" className={this.state.display}>
+                    <h4 className="close" onClick={this.props.togglePopup}>
+                        X
+                    </h4>
+                    {/* <div>
+                        <img className="" src={this.state.url}></img>
+                    </div> */}
                     <div>
                         <p>Here you can change your profile pic</p>
                     </div>
                     <div className="modal-content">
-                        {/* <span className="close" onClick={this.closeModal}>
-                            X
-                        </span> */}
                         <form
                             encType="multipart/form-data"
                             onSubmit={this.handleSubmit}

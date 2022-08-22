@@ -43,7 +43,25 @@ app.use(
         maxAge: 1000 * 60 * 60 * 24 * 14,
     })
 );
+const server = require("http").Server(app);
+const io = require("socket.io")(server, {
+    allowRequest: (req, callback) => {
+        callback(null, req.headers.referer.startsWith("http://localhost:3000"));
+    },
+});
 
+app.use(compression());
+const cookieSessionMiddleware = cookieSession({
+    secret:
+        process.env.SESSION_SECRET || require("./secrets.json").SESSION_SECRET,
+    maxAge: 1000 * 60 * 60 * 24 * 14, // 14 days
+    sameSite: true,
+});
+app.use(cookieSessionMiddleware);
+
+io.use((socket, next) => {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 const {
     ensureSignedOut,
     ensureSignedIn,
@@ -300,7 +318,7 @@ app.get("/api/user/:id", ensureSignedIn, (req, res) => {
             const self = id == req.session.userId;
             return res.json({
                 self,
-                success: !self, // successful only if it's not my own data
+                success: !self,
                 user: {
                     id: user.id,
                     first: user.first,
@@ -392,9 +410,54 @@ app.get("/findpossiblefriendships", async (req, res) => {
     return res.json(result.rows);
 });
 
+app.get("/logout", (req, res) => {
+    req.session = null;
+    req.session.userId = null;
+    return res.redirect("/");
+});
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
-app.listen(process.env.PORT || 3001, function () {
+server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
+});
+
+io.on("connection", async function (socket) {
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+
+    const userId = socket.request.session.userId;
+    console.log(
+        `User with id: ${userId} and socket id ${socket.id}, just connected!`
+    );
+
+    app.get("/chat", async (req, res) => {});
+    const theLastChats = await db.lastChats();
+    console.log("the last 10 chats are: ", theLastChats.rows);
+
+    socket.emit("last-10-messages", theLastChats.rows);
+
+    // socket.emit("last-10-messages", [
+    //     {
+    //         text: "A first message",
+    //     },
+    //     {
+    //         text: "A second message",
+    //     },
+    // ]);
+
+    socket.on("new-message", (message) => {
+        console.log("new-message", message);
+        // const { first, url } = await db
+
+        db.getUserInformation(userId).then((result) => {
+            console.log("the result from grt user info is :", result.rows);
+        });
+
+        db.insertMessages(message.text, userId).then(() => {
+            io.emit("add-new-message", message);
+        });
+        // io.emit("add-new-message", message.text);
+    });
 });

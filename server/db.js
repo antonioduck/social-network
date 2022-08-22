@@ -231,7 +231,7 @@ module.exports.cancelFriendship = (user1id, user2id) => {
 };
 
 module.exports.FindPossibleFriends = (myId) => {
-    console.log("we are inside the query");
+    // console.log("we are inside the query");
 
     return db.query(
         `SELECT users.id, first, last, accepted, url FROM users
@@ -242,3 +242,21 @@ OR (accepted = false AND recipient_id = $1 AND users.id = friendships.sender_id)
         [myId]
     );
 };
+
+module.exports.lastChats = () => {
+    return db.query(
+        `
+        SELECT chat_messages.id, message, created_at, first, last, url FROM chat_messages JOIN users on (chat_messages.user_id=users.id) ORDER BY chat_messages.id DESC LIMIT 10
+        `,
+        []
+    );
+};
+
+
+module.exports.insertMessages = (text, userId) => {
+    return db.query(
+        `INSERT INTO chat_messages (message, user_id) VALUES ($1, $2) RETURNING message, user_id`,
+        [text, userId]
+    );
+};
+

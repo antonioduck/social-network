@@ -55,12 +55,17 @@ export default class Registration extends Component {
     render() {
         return (
             <>
-                {" "}
+                {/* <nav className="otherSide">
+                    <p> hey hey</p>
+                </nav> */}
                 <nav className="Registration">
-                    <p>
-                        Welcome to the page. If you are not a member , you can
-                        register here
-                    </p>
+                    <div>
+                        <p>
+                            Welcome to my Social Network . This is a place where
+                            all the dog owners can know each other . If you are
+                            not a member , you can register here
+                        </p>
+                    </div>
 
                     <form
                         className="registration"
@@ -96,7 +101,11 @@ export default class Registration extends Component {
                             onChange={this.onFormInputChange}
                         ></input>
 
-                        <input type="submit" value="Register"></input>
+                        <input
+                            type="submit"
+                            className="submitbtn"
+                            value="Register"
+                        ></input>
                         {this.state.error && (
                             <span className="error">Please try again</span>
                         )}

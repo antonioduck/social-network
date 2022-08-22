@@ -3,13 +3,24 @@ body {
     box-sizing: border-box;
     margin: 0;
     width: 100%;
-    height: auto;
+    height: 100%;
+}
+.horizontalNav {
+    display: flex;
+    justify-content: space-between;
+    background-image: url("dog5.jpg");
+    object-fit: cover;
+    /* background-size: cover; */
+    border-radius: 80%;
 }
 nav img {
     width: 100px;
     height: 100px;
 }
-
+.MainBody {
+    background-image: url("dog3.png");
+    height: 100vh;
+}
 form {
     display: grid;
     place-items: center;
@@ -29,8 +40,29 @@ form {
 
 .uploader {
     display: grid;
-    place-items: end;
+    place-items: center;
     text-align: center;
+    z-index: 1;
+}
+.uploader .modalOpen {
+    width: 150;
+    height: 150;
+    background-color: lightblue;
+    z-index: 3;
+}
+.uploader .modalOpen:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 10px 20px 2px rgba(0, 255, 255, 0.7);
+}
+.uploader .overlay {
+    display: grid;
+    overflow-y: scroll;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    width: 100%;
+    height: auto;
+    z-index: 2;
 }
 
 .profile .profilepic {
@@ -64,12 +96,22 @@ img {
     border-radius: 50%;
 }
 
-.horizontalNav .link {
+/* .horizontalNav .link {
     display: grid;
     place-items: center;
     text-align: center;
+    text-decoration: none;
+} */
+.horizontalNav .horizontalstyling {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 600px;
+    height: 80px;
+    /* background: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c); */
+    /* border-radius: 30%; */
 }
-
 /* .Registration {
     display: grid;
     place-items: center;
@@ -81,12 +123,13 @@ img {
     text-align: center;
 }
 
-.horizontalNav {
+/* .horizontalNav {
     display: flex;
     justify-content: space-between;
-    background: linear-gradient(0.25turn, #f69d3c, #ebf8e1, #3f87a6);
+    
     transition: 1s;
-}
+    background-color: blue;
+} */
 
 .Welcome .welcomeImage {
     display: grid;
@@ -95,9 +138,6 @@ img {
     width: 25rem;
     height: 25rem;
     border-radius: 40%;
-}
-.horizontalNav .link {
-    text-decoration: none;
 }
 
 .profile .profile-pic-large {
@@ -112,12 +152,96 @@ img {
 
 .wannabees {
     display: grid;
-    place-items: center;
-    text-align: center;
+    place-items: top;
+    /* text-align: center; */
 }
 
 .MyFriends {
     display: grid;
+    place-items: top;
+    /* text-align: center; */
+}
+
+.friendsAndWannabees {
+    display: flex;
+    justify-content: space-evenly;
+}
+.uploader .modalOpen {
+    display: grid;
     place-items: center;
     text-align: center;
+}
+
+.horizontalNav .horizontalstyling .link {
+    text-decoration: none;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-size: 20px;
+    font-family: "Inconsolata", monospace;
+    color: #fff;
+    text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px mediumslateblue,
+        0 0 42px mediumslateblue, 0 0 82px mediumslateblue,
+        0 0 92px mediumslateblue, 0 0 102px mediumslateblue,
+        0 0 151px mediumslateblue;
+}
+
+.chatBoard {
+    border: 2px dotted black;
+    width: 400px;
+}
+
+.users-container .chatBoard .chatMessage .tiny {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.Welcome .Registration p {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    /* font-weight: bolder; */
+    font-size: 15px;
+}
+
+.Welcome .Registration .registration .submitbtn {
+    /* background: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c); */
+    background-color: #f69d3c;
+    border: none;
+    color: white;
+    /* padding: 16px 32px; */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    /* border-radius: 30%; */
+}
+.Welcome .Registration .registration .submitbtn:hover {
+    background-color: blue;
+    color: white;
+    scale: 1.1;
+}
+
+.Welcome .LogginClass .Login .Loginbtn {
+    background-color: blue;
+    border: none;
+    color: white;
+    /* padding: 16px 32px; */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.Welcome .LogginClass .Login .Loginbtn:hover {
+    background-color: orange;
+    color: white;
+    scale: 1.1;
 }
