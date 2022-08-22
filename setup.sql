@@ -25,8 +25,8 @@ CREATE TABLE reset_codes(
 
 CREATE TABLE friendships(
     id SERIAL PRIMARY KEY,
-    sender_id VARCHAR NOT NULL,
-    recipient_id VARCHAR NOT NULL,
+    sender_id INTEGER NOT NULL,
+    recipient_id INTEGER NOT NULL,
     accepted BOOLEAN DEFAULT false
 );
 
