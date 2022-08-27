@@ -1,24 +1,52 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+html,
+body {
+    height: 100%;
+}
+main {
+    width: 100%;
+}
 body {
     background: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);
-    box-sizing: border-box;
+    background-color: lightskyblue;
+    background-blend-mode: lighten;
+
+    block-size: fit-content;
+    /* box-sizing: border-box; */
     margin: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
+    /* background-size: cover; */
+}
+.Mainbodydiv {
+    width: 100%;
+    height: 100vh;
 }
 .horizontalNav {
     display: flex;
     justify-content: space-between;
     background-image: url("dog5.jpg");
-    object-fit: cover;
     /* background-size: cover; */
+    background-color: lightskyblue;
+    background-blend-mode: darken;
+    object-fit: cover;
+    width: auto;
     border-radius: 80%;
 }
 nav img {
-    width: 100px;
-    height: 100px;
+    width: 6.25em;
+    height: 6.25em;
 }
 .MainBody {
+    width: auto;
     background-image: url("dog3.png");
+    background-color: lightskyblue;
+    background-blend-mode: darken;
     height: 100vh;
 }
 form {
@@ -176,7 +204,7 @@ img {
     text-decoration: none;
     margin-top: 30px;
     margin-bottom: 30px;
-    font-size: 20px;
+    font-size: 1.25em;
     font-family: "Inconsolata", monospace;
     color: #fff;
     text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px mediumslateblue,
@@ -244,4 +272,10 @@ img {
     background-color: orange;
     color: white;
     scale: 1.1;
+}
+
+@media screen and (max-width: 650px) {
+    main {
+        width: 100%;
+    }
 }
